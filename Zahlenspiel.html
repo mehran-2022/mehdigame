@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+  <style>
+    *{
+    margin: 0;
+padding: 0;    
+}
+
+.numb {
+    font-size: 5em;
+    margin-left: 10px;
+    border-radius: 10px;
+    border: none;
+    background-color: rgba(224, 235, 20, 0.616);
+}
+
+#btn {
+    width: 19%;
+    height: 7rem;
+    border-radius: 20px;
+    border: none;
+    font-size: 18px;
+    background-color: rgba(255, 0, 0, 0.311);
+    box-shadow: Inset 0px 0px 49px 16px #2b1f1f;
+    margin-top: 15px;
+    color: aliceblue;
+    margin-left: 15px;
+    margin-right: 15px;
+    padding: 5px;
+
+}
+
+body,
+html {
+    height: 100%;
+
+
+
+}
+
+#g1 {
+    background-image: url("Zahlenspileimag.jpg");
+height: 100vh;
+    
+    background-repeat: no-repeat;
+    background-size: cover;
+
+}
+#h4{
+grid-area: h4; 
+grid-column-start: 2;
+grid-column-end: 5;
+grid-row-start: 1;
+grid-row-end: 2;
+}
+#n1{
+    height: 20px;
+    font-size: 15px;
+    width: 160px;
+    grid-area: n1; 
+    grid-row-start: 2;
+    grid-row-end: 3;
+    grid-column-start: 3;
+grid-column-end: 4;
+
+}
+.message {
+    color: aliceblue;
+    font-size: x-large;
+    background-color: rgba(191, 217, 250, 0.391);
+  
+
+    display: grid;
+ grid-template-columns: auto auto auto
+ auto auto auto ;
+ grid-template-rows: auto auto auto;
+  gap: 2px;
+  text-align: center;
+  justify-content: center;
+    padding: 5px;
+    box-shadow:  0px 0px 49px 16px #f5f5f5;
+
+}
+
+#txt {
+    color: aliceblue;
+    background-color: rgba(187, 190, 192, 0.332);
+    font-size: 15px;
+    display: flex;
+    justify-content: center;
+    width: 30%;
+     margin-left: auto;
+    margin-right: auto;
+    border-radius: 10px;
+    margin-top: 30px;
+    
+    
+    
+}
+
+.game {
+    display: flex;
+    justify-content: center;
+
+    margin-top: 35px;
+    margin-bottom: 20px;
+
+}
+
+#b {
+    display: flex;
+    justify-content: space-between
+}
+
+  </style>
+</head>
+
+<body id="g1">
+    <div class="message">
+       
+       <a id="h4"> Wählen Sie bitte ihre spalte Anzahl</a>
+        <input type="number" id="n1" >
+</div>
+    <div class="game"></div>
+    <div id="txt"></div>
+    <div id="b">
+        <button type="button" id="btn">Start</button>
+        <button type="button" onclick="location.reload()" id="btn">New Game</button>
+    </div>
+
+
+    
+
+   <script>
+    const gameArea = document.querySelector(".game");
+const button = document.querySelector("button");
+const message = document.querySelector(".message");
+const txt = document.querySelector("#txt");
+let gamePlay = false;
+let score = 0;
+button.addEventListener("click", function () {
+    if (!gamePlay) {
+        maker(document.getElementById("n1").value);
+        gamePlay = true;
+        score = 0;
+        document.getElementById("txt").innerHTML = "Grün : Hoch ↑ </br>  Rot : Runter ↓ </br>  BLAU : RICHTIG 👍";
+        txt.style.padding="5px";
+        button.innerHTML = "Checker Combo";
+    } else {
+        
+        const numbers = document.querySelectorAll(".numb");
+        score++;
+        message.innerHTML = "Deine Versuch : " + score;
+        let winCondition = 0;
+        for (let i = 0; i < numbers.length; i++) {
+
+            if (numbers[i].value == numbers[i].correct) {
+
+                numbers[i].style.backgroundColor = "rgba(135, 843, 251, 0.476)";
+                numbers[i].style.color = "white";
+                winCondition++;
+            } else {
+                let color = (numbers[i].value < numbers[i].correct) ? "rgba(219, 213, 73, 0.276)" : "rgba(255, 0, 0, 0.311)";
+                numbers[i].style.backgroundColor = color;
+                numbers[i].style.color = "black";
+
+            }
+            if (winCondition == numbers.length) {
+
+                message.innerHTML += " </br>  </br> Sie haben gevonen";
+            }
+
+        }
+    }
+});
+function maker(num) {
+    for (let x = 0; x < num; x++) {
+        let el = document.createElement("input");
+        el.setAttribute("type", "number");
+        el.max = 9;
+        el.min = 0;
+        el.size = 1;
+        el.style.width = "45px";
+        el.style.height="50px";
+        el.style.fontSize="25px";
+        el.classList.add("numb");
+        el.correct = Math.floor(Math.random() * 10);
+        el.value =  0;
+        el.order = x;
+
+        gameArea.appendChild(el);
+    }
+}
+
+
+   </script>
+</body>
+
+</html>
